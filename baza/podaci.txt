@@ -1,0 +1,79 @@
+INSERT INTO `ozs`.`users` (`Username`)
+VALUES
+('idea'),
+('pekaraBrankovic'),
+('pekaraAnton'),
+('maxi'),
+('sefNis'),
+('kuhNis');
+
+
+
+
+INSERT INTO `ozs`.`donator` (`Naziv`, `Telefon`, `Mejl`, `Adresa`, `Username`, `Password`)
+VALUES 
+  ('Idea', ' 0800-101-202', 'online@idea.rs', NULL, 'idea', 'ideapassword'),
+  ('Pekara Branković', '018-526-188', 'office@pekara-brankovic.com',NULL, 'pekaraBrankovic', 'pekbrankpass'),
+  ('Pekara Anton', '018-528-235','antonpekara@gmail.com', 'Jovana Skerlica 16, Niš¡', 'pekaraAnton', 'pekantonpass'),
+('Maxi', '0800-3537-030','potrosaci@delhaize.rs', NULL, 'maxi', 'maxipassword');
+  
+  
+  INSERT INTO `ozs`.`sef` (`Podrucje`, `Username`, `Password`)
+VALUES 
+  ('Nis', 'sefNis', 'sefpassword');
+
+
+ INSERT INTO `ozs`.`kuhinja` (`Podrucje`, `Naziv`, `Adresa`, `Username`, `Password`, `SID`)
+VALUES 
+  ('Nis', 'Kuhinja Nis', 'Orlovića Pavla 12a, Niš', 'kuhNis', 'kpass1', 1);
+
+
+
+  INSERT INTO `ozs`.`prevoznik` (`Podrucje`, `Ime`, `Prezime`, `Telefon`, `Mejl`, `Vozilo`, `SID`)
+VALUES 
+  ('Nis', 'Marko', 'Petrović', '063-222-333', 'markopetrovic@gmail.com', 'Automobil', 1),
+  ('Nis', 'Marija', 'Krstić', '063-111-222', 'marijakrstic@gmail.com', 'Automobil', 1),
+  ('Nis', 'Marko', 'Marković', '062-111-999', 'markomarkovic@gmail.com', 'Kamion', 1),
+  ('Nis', 'Petar', 'Marković', '064-444-333', 'petarmarkovic@gmail.com', 'Motor', 1),
+  ('Nis', 'Branislav', 'Živković', '065-555-666', 'branislavzivkovic@gmail.com', 'Bicikla', 1);
+
+
+
+
+  INSERT INTO `ozs`.`primalacusluga` (`Ime`, `Prezime`, `Podrucje`, `BrojBonova`, `KID`)
+VALUES 
+  ('Nenad', 'Branković', 'Nis', 90, 1),
+  ('Ana', 'Ðordević','Nis', 30, 2),
+  ('Milica', 'Vojinović', 'Nis', 40, 4),
+  ('Tadija', 'Krstić', 'Nis', 60, 6),
+  ('Petar', 'Mitić', 'Nis', 22, 10),
+  ('Ognjen', 'Stefanović', 'Nis', 0, 1),
+  ('Bogdan', 'Petrović', 'Nis', 54, 1),
+  ('Tamara', 'Pavlović', 'Nis', 85, 1),
+  ('Nikola', 'Jovanović', 'Nis', 46, 3),
+  ('Aleksa', 'Živković', 'Nis', 24, 5),
+  ('Milica', 'Marković', 'Nis', 3, 7);
+
+
+  INSERT INTO `ozs`.`donacijanovcana` (`Izvrsena`, `Datum`, `Iznos`, `DNTRID`)
+VALUES 
+
+  ('No', '2023-03-04 12:50:00', 100, 1),
+  ('No', '2023-03-11 12:45:00', 100, 2),
+  ('Yes', '2023-04-01 13:00:00', 200, 1),
+  ('Yes', '2023-04-08 13:30:00', 200, 2),
+  ('No', '2023-06-01 12:00:00', 100, 1),
+  ('Yes', '2023-05-01 13:20:00', 200, 3);
+
+
+
+  INSERT INTO `ozs`.`donacijahrane` (`Izvrsena`, `Datum`, `Opis`, `Podrucje`, `AdresaPreuzeca`, `DNTRID`, `SID`, `PID`, `KID`)
+VALUES 
+  ('No', '2023-02-01 10:00:00', NULL, 'Nis', 'Božidara Adžije 91, Niš', 1, 1, 1, 1),
+  ('Yes', '2023-05-11 14:20:00', 'peciva', 'Nis', 'Jovana Skerlića 16, Niš', 3, 1, 2, 1),
+  ('Yes', '2023-01-10 15:05:00', 'slatkiši, grickalice i ost namirnice', 'Nis', 'Obilićev venac, Niš', 4, 1, 1, 1),
+  ('Yes', '2023-08-03 12:15:00', '10 peciva', 'Nis', 'Božidara Adžije 91, Niš', 1, 1, 2, 1),
+  ('No', '2023-07-01 10:45:00', '4 krofne', 'Nis', 'Jovana Skerlića 16, Niš', 3, 1, 5, 1),
+  ('No', '2023-06-09 12:00:00', NULL, 'Nis', 'Obilićev Venac 3, Niš', 1, 1, 4, 1),
+  ('Yes', '2023-02-06 10:30:00', '2 kg namirnica', 'Nis', 'Bulevar dr. Zorana Ðinđića 44, Niš', 1, 1, 2, 1),
+  ('Yes', '2023-02-04 11:00:00', NULL, 'Nis', 'Bulevar Nemanjića 15, Niš', 2, 1, 2, 1);
