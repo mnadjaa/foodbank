@@ -1,0 +1,44 @@
+<div class="col-sm-12 col-xl-6">
+    <div class="bg-light rounded h-100 p-4">
+        <h6 class="mb-4 text-center">Novčane donacije</h6>
+
+        <div class="dropdown">
+            <button class="btn btn-primary mb-4 dropdown-toggle"
+                    data-bs-toggle="dropdown">
+                Sortiraj
+            </button>
+
+            <ul class="dropdown-menu" onclick="event.stopPropagation()">
+                <li>
+                    <label class="dropdown-item">
+                        <input type="radio" name="sort-type" value="Datum" checked>
+                        Po datumu
+                    </label>
+                </li>
+                <li>
+                    <label class="dropdown-item">
+                        <input type="radio" name="sort-type" value="Iznos">
+                        Po iznosu
+                    </label>
+                </li>
+                <li class="text-center mt-2">
+                    <button type="button" class="btn btn-primary"
+                        onclick="sortTable(); this.closest('.dropdown').querySelector('[data-bs-toggle=dropdown]').click();">
+                        Potvrdi
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <table class="table table-bordered" id="donacijeN-table">
+            <thead>
+                <tr>
+                    <th>Datum</th>
+                    <th>Ime</th>
+                    <th>Iznos</th>
+                </tr>
+            </thead>
+            <tbody id="donacijeN-body"></tbody>
+        </table>
+    </div>
+</div>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="sr">
 
-<!--DONACIJE DONATOR LICNO-->
+<!-- DONACIJE DONATOR -->
 <head>
     <meta charset="utf-8">
     <title>NARODNA KUHINJA</title>
@@ -10,275 +10,99 @@
 </head>
 
 <body data-role="donator">
+
     <main>
-        <!--donacije-->
+        <div class="container-fluid pt-4 px-4">
 
-                    <!-- Table Start -->
-                    <div class="container-fluid pt-4 px-4">
-                        <h1 class="text-center mb-4">Sve donacije</h1>
+            <!-- Sve donacije -->
+            <h1 class="text-center mb-4">Sve donacije</h1>
 
-                        <div class="row g-4">
-                            <div class="col-sm-12 col-xl-6">
-                                <div class="bg-light rounded h-100 p-4">
-        <!---->                     <h6 class="mb-4 text-center">Donacije</h6>
-                                    <table class="table table-bordered" id="donacije-table">
-                                        <thead>
-                                            <tr>
-                                                <!--<th scope="col">#</th>-->
-                                                <th scope="col">Datum</th>
-                                                <th scope="col">Donator</th>
-                                                <th scope="col">Grad</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody id="donacije-body">
-                                            <!-- Podaci će biti dinamički ubačeni ovde -->
-                                        </tbody>
-                                    </table>
-                                </div>
-                            </div>
-
-        <!--novcane donacije-->
-        <div class="col-sm-12 col-xl-6">
-            <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4 text-center">Novčane donacije</h6>
-                <div class="dropdown">
-                    <button class="btn btn-primary mb-4 dropdown-toggle" data-bs-toggle="dropdown" >Sortiraj</button>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <label class="dropdown-item">
-                                <input type="radio" name="sort-type" value="Datum"> Po datumu
-                            </label>
-                        </li>
-                        <li>
-                            <label class="dropdown-item">
-                                <input type="radio" name="sort-type" value="Iznos"> Po iznosu
-                            </label>
-                        </li>
-                        <li class="text-center mt-2"><button class="btn btn-primary" onclick="sortTable()">Potvrdi</button></li>
-                    </ul>
+            <div class="row g-4 mb-4">
+                <div class="col-md-6">
+                    <div id="tabela-donacije"></div>
                 </div>
-                <table class="table table-bordered" id="donacijeN-table">
-                    <thead>
-                        <tr>
-                            <!--<th scope="col">#</th>-->
 
-                            <th scope="col">Datum</th>
-                            <th scope="col" >Ime</th>
-                            <th scope="col">Iznos</th>
-                        </tr>
-                    </thead>
-                    <tbody id="donacijeN-body">
-                        <!-- Podaci će biti dinamički ubačeni ovde -->
-                    </tbody>
-                </table>
+                <div class="col-md-6">
+                    <div id="tabela-novcane-donacije"></div>
+                </div>
+            </div>
+
+            <!-- Vaše donacije -->
+            <h1 class="text-center mb-4">Vaše donacije</h1>
+
+            <div class="row g-4">
+
+                <!-- Izvršene donacije -->
+                <div class="col-12">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4 text-center">Izvršene donacije</h6>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="vasedonacije-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Datum</th>
+                                        <th>Opis</th>
+                                        <th>Grad</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vasedonacije-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Donacije u toku -->
+                <div class="col-12">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4 text-center">Donacije u toku</h6>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="vaseNeizvdon-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Datum</th>
+                                        <th>Opis</th>
+                                        <th>Grad</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="vaseNeizvdon-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Odbijene donacije -->
+                <div class="col-12">
+                    <div class="bg-light rounded h-100 p-4">
+                        <h6 class="mb-4 text-center">Odbijene donacije</h6>
+
+                        <div class="table-responsive">
+                            <table class="table table-bordered" id="odbijenedon-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Datum</th>
+                                        <th>Opis</th>
+                                        <th>Grad</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="odbijenedon-body"></tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
             </div>
         </div>
-
-        <!---->
-
-        <h1 class="text-center mb-4">Vaše donacije</h1>
-
-        <div class="col-sm-12 col-xl-6">
-
-            <div class="bg-light rounded h-100 p-4">
-                <h6 class="mb-4 text-center">Izvršene donacije</h6>
-                <table class="table table-bordered" id="vasedonacije-table">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Datum</th>
-                            <th scope="col">Opis</th>
-                            <th scope="col">Grad</th>
-                        </tr>
-                    </thead>
-                    <tbody id="vasedonacije-body">
-                        <!-- Podaci će biti dinamički ubačeni ovde -->
-                    </tbody>
-                </table>
-            </div>
-        </div>
-        <div class="col-sm-12 col-xl-6">
-
-        <div class="bg-light rounded h-100 p-4">
-            <h6 class="mb-4 text-center">Donacije u toku</h6>
-            <table class="table table-bordered" id="vaseNeizvdon-table">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Datum</th>
-                        <th scope="col">Opis</th>
-                        <th scope="col">Grad</th>
-                    </tr>
-                </thead>
-                <tbody id="vaseNeizvdon-body">
-                    <!-- Podaci će biti dinamički ubačeni ovde -->
-                </tbody>
-            </table>
-        </div></div>
-
-        <div class="bg-light rounded h-100 p-4">
-            <h6 class="mb-4 text-center">Odbijene donacije</h6>
-            <table class="table table-bordered" id="odbijenedon-table">
-                <thead>
-                    <tr>
-                        <th scope="col">ID</th>
-                        <th scope="col">Datum</th>
-                        <th scope="col">Opis</th>
-                        <th scope="col">Grad</th>
-                    </tr>
-                </thead>
-                <tbody id="odbijenedon-body">
-                    <!-- Podaci će biti dinamički ubačeni ovde -->
-                </tbody>
-            </table>
-        </div></div>
-
-                </div>
     </main>
 
     <script src="js/layout.js"></script>
+    <script src="js/ucitajTabeluDonacije.js"></script>
+    <script src="js/ucitajTabeluNovcaneDonacije.js"></script>
+    <script src="js/ucitajMojeDonacije.js"></script>
 
-    <script>
-        // JavaScript za dohvatanje podataka i ažuriranje tabele
-        window.addEventListener('load', function() {
-            fetch('/donacije') // Dohvat podataka sa servera
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('donacije-body');
-                    const limit = 20; // Limit za broj redova koje prikazujemo
-        data.slice(0,limit).forEach(donacija => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${donacija.Datum}</td>
-                            <td>${donacija.Donator}</td>
-                            <td>${donacija.Podrucje}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Greška pri dohvatanju podataka:', error));
-        });
-    </script>
-
-    <script>
-        // JavaScript za dohvatanje podataka i ažuriranje tabele
-        window.addEventListener('load', function() {
-            var sortTypeInput = document.querySelector('input[name="sort-type"]:checked');
-            var sortType ='Datum'; // Default vrednost ako nijedno dugme nije izabrano
-
-            if (sortTypeInput && sortTypeInput.value === 'Iznos') {
-                sortType = 'Iznos';
-            }
-
-            var url = (sortType === 'Iznos') ? '/donacijeNSort' : '/donacijeN';
-
-            fetch(url) // Dohvat podataka sa servera
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('donacijeN-body');
-                    const limit = 20; // Limit za broj redova koje prikazujemo
-                    data.slice(0, limit).forEach(donacija => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${donacija.Datum||''}</td>
-                            <td>${donacija.Ime||''}</td>
-                            <td>${donacija.Iznos||''}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Greška pri dohvatanju podataka:', error));
-        });
-
-        function sortTable() {
-                var sortTypeInput = document.querySelector('input[name="sort-type"]:checked');
-                var sortType = sortTypeInput.value;
-
-                var url = (sortType === 'Iznos') ? '/donacijeNSort' : '/donacijeN';
-
-                fetch(url)
-                    .then(response => response.json())
-                    .then(data => {
-                        const tableBody = document.getElementById('donacijeN-body');
-                        tableBody.innerHTML = ''; 
-                        const limit = 20; // Limit za broj redova koje prikazujemo
-                        data.slice(0, limit).forEach(donacija => {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                                <td>${donacija.Datum||''}</td>
-                                <td>${donacija.Ime||''}</td>
-                                <td>${donacija.Iznos||''}</td>
-                            `;
-                            tableBody.appendChild(row);
-                        });
-                    })
-                    .catch(error => console.error('Greška pri dohvatanju podataka:', error));
-            }
-    </script>
-
-    <script>
-        window.addEventListener('load', function() {
-            fetch('/odbijenedon')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('odbijenedon-body');
-                    const limit = 50; // Limit za broj redova koje prikazujemo
-                        data.slice(0, limit).forEach(donacija => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${donacija.ID || ''}</td>
-                            <td>${donacija.Datum || ''}</td>
-                            <td>${donacija.Opis || ''}</td>
-                            <td>${donacija.Podrucje || ''}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Greška pri dohvatanju podataka:', error));
-        });
-    </script>
-
-    <script>
-        window.addEventListener('load', function() {
-            fetch('/vasedonacije')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('vasedonacije-body');
-                    data.forEach(donacija => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${donacija.ID || ''}</td>
-                            <td>${donacija.Datum || ''}</td>
-                            <td>${donacija.Opis || ''}</td>
-                            <td>${donacija.Podrucje || ''}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Greška pri dohvatanju podataka:', error));
-        });
-    </script>
-
-    <script>
-        window.addEventListener('load', function() {
-            fetch('/vaseNeizvdon')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('vaseNeizvdon-body');
-                    data.forEach(donacija => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${donacija.ID || ''}</td>
-                            <td>${donacija.Datum || ''}</td>
-                            <td>${donacija.Opis || ''}</td>
-                            <td>${donacija.Podrucje || ''}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Greška pri dohvatanju podataka:', error));
-        });
-    </script>
 </body>
-
 </html>
