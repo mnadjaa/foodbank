@@ -1,7 +1,5 @@
 <!DOCTYPE html>
 <html lang="sr">
-
-<!--PRIMAOCI USLUGA KUHINJA-->
 <head>
     <meta charset="utf-8">
     <title>NARODNA KUHINJA</title>
@@ -9,187 +7,19 @@
     <script src="js/head.js"></script>
 </head>
 
+<!--tabela koriniska-->
 <body data-role="kuhinja">
-    <main>
-        <!-- krajnji korisnici Start -->
-        <div class="container-fluid pt-4 px-4">
-            <div class="row g-4">
-                <div class="bg-light rounded h-100 p-4">
-                    <h6 class="mb-4 text-center">Krajnji Korisnici</h6>
-                   <table class="table table-bordered" id="korisnici-table">
-                       <thead>
-                           <tr>
-                               <!--<th scope="col">#</th>-->
-                               <th scope="col">Id</th>
-                               <th scope="col">
-                                   <div class="dropdown" style="display: inline;">
-                                       <button class="btn btn-secondary dropdown-toggle dropdown-toggle-split" type="button" id="gradDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                           Grad
-                                       </button>
-                                       <div class="dropdown-menu" aria-labelledby="gradDropdown">
-                                           <a class="dropdown-item" href="#" onclick="filtriranjePoGradu('svi')">Svi gradovi</a>
-                                           <!-- Dodajte JavaScript kod da se generišu opcije iz baze podataka -->
-                                       </div>
-                                   </div>
-                               </th>
-                               </th>
-                               <th scope="col">Ime</th>
-                               <th scope="col">Prezime</th>
-                               <th scope="col">Broj bonova</th>
-                               <th scope="col">Skidanje bonova</th> <!-- za promenu broja bonova -->
-                           </tr>
-                       </thead>
-                       <tbody id="korisnici-body">
-                           <!-- Podaci će biti dinamički ubačeni ovde -->
-                       </tbody>
-                   </table>
-               </div>
-            </div>
+    <main>        
+        <div class="bg-light rounded h-100 p-4">
+            <h6 class="mb-4 text-center">Krajnji Korisnici</h6>
+
+            <div id="korisnici-tabela-container"></div>
         </div>
-        <!-- krajnji korisnici End -->
     </main>
 
     <script src="js/layout.js"></script>
+    <script src="js/ucitajTabeluKorisnici.js"></script>
 
-    <script>
-            let trenutniGrad='svi';
-
-            function popunjavanjeTabele(data){
-            const tableBody = document.getElementById('korisnici-body');
-            tableBody.innerHTML='';
-            data.forEach(k => {
-            const row = document.createElement('tr');
-            row.id = `red_${k.PUID}`;
-            row.innerHTML = `
-                    <td>${k.PUID}</td>     <!--iz baze-->
-                    <td>${k.Podrucje||''}</td>
-                    <td>${k.Ime}</td>
-                    <td>${k.Prezime||''}</td>
-                    <td class="broj-bonova" >${k.BrojBonova || ''}</td>
-                    <td class="text-center">
-                        <div class="input-group">
-                            <input type="text" class="form-control" id="noviBrojBonova_${k.PUID}" pattern="\d*" inputmode="numeric" min="0" placeholder="Koliko bonova skidate">
-                            <button onclick="promBrBonova('${k.PUID}', '${k.BrojBonova}')" class="btn btn-primary">Promeni broj bonova</button>
-                        </div>
-                    </td>
-
-                     `;
-                    tableBody.appendChild(row);
-                });
-            }
-
-            function promBrBonova(puid,trenutniBrojBonova) {
-                const noviBrojBonova = document.getElementById(`noviBrojBonova_${puid}`).value;
-
-            // Provera da li je unet validan broj
-                if (!noviBrojBonova || isNaN(noviBrojBonova)||noviBrojBonova<0) {
-                    alert('Unesite validan broj bonova koji nije negativan');
-                    return;
-                }
-
-                if (trenutniBrojBonova === null || isNaN(trenutniBrojBonova)) {
-                    alert('Trenutni broj bonova korisnika je nepoznat');
-                    return;
-                }
-
-                if (parseInt(noviBrojBonova) > trenutniBrojBonova) {
-                    alert('Ne možete oduzeti više bonova nego što korisnik ima');
-                    return;
-                }
-
-            // AJAX poziv ka serverskoj ruti za promenu broja bonova
-            fetch(`/promeniBrBonova`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ puid: puid, brojBonova: noviBrojBonova })
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Greska pri dobijanju odgovora od servera');
-                }
-                return response.json();
-            })
-            .then(data => {
-                console.log('Promena broja bonova uspešno izvršena:', data);
-                filtriranjePoGradu(trenutniGrad);
-
-            })
-            .catch(error => {
-                console.error('Greška pri promeni broja bonova:', error);
-            });
-        }
-
-                    function filtriranjePoGradu(grad){
-                        trenutniGrad=grad;
-                        fetch('/korisnici') // Dohvatamo podataka sa servera 
-                    .then(response => response.json())
-                    .then(data => {
-                        const filtriraniPodaci = grad === 'svi' ? data : data.filter(k => k.Podrucje === grad);
-                        popunjavanjeTabele(filtriraniPodaci);
-                        })
-                        .catch(error => console.error('Greška pri dohvatanju podataka:', error));
-            } 
-
-            window.addEventListener('load', function() {
-                filtriranjePoGradu('svi');
-
-        });
-
-            window.addEventListener('DOMContentLoaded', function() {
-                const gradoviDropdown = document.getElementById('gradDropdown');
-                const dropdownMenu = document.querySelector('.dropdown-menu');
-
-                gradoviDropdown.addEventListener('click', function(event) {
-                    dropdownMenu.classList.toggle('show');
-                });
-
-                // Zatvaranje padajuceg menija ako se klikne van njega
-                window.addEventListener('click', function(event) {
-                    if (!gradoviDropdown.contains(event.target)) {
-                        dropdownMenu.classList.remove('show');
-                    }
-                });
-
-                // Dohvatanje jedinstvenih podataka iz baze
-                gradoviDropdown.addEventListener('click', function() {
-                    fetch('/gradoviKorisnika')
-                        .then(response => response.json())
-                        .then(data => {
-                            // Pravimo skup jedinstvenih gradova da nam se ne ponavljaju iste vrednosti
-                            const jedinstveniGradovi = new Set(data);
-
-                            // Uklonimo sve postojeće opcije pre nego što dodamo nove
-                            dropdownMenu.innerHTML = '';
-
-                            const sviLink = document.createElement('a');
-                    sviLink.classList.add('dropdown-item');
-                    sviLink.href = '#';
-                    sviLink.textContent = 'Svi gradovi';
-                    sviLink.onclick = function() {
-                        filtriranjePoGradu('svi');
-                    };
-                    dropdownMenu.appendChild(sviLink);
-
-                            //dodajemo svaki grad u padajuci meni
-                            jedinstveniGradovi.forEach(grad => {
-                                const link = document.createElement('a');
-                                link.classList.add('dropdown-item');
-                                link.href = '#';
-                                link.textContent = grad;
-                                link.onclick = function() {
-                                    filtriranjePoGradu(grad);
-                                };
-
-                                dropdownMenu.appendChild(link);
-                            });
-                        })
-                        .catch(error => console.error('Greška pri dohvatanju gradova iz baze:', error));
-                });
-
-        });
-    </script>
 </body>
 
 </html>

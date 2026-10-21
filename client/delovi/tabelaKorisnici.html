@@ -1,0 +1,31 @@
+
+<div class="table-responsive">
+    <table class="table table-bordered" id="korisnici-table">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col">
+                    <div class="dropdown">
+                        <button
+                            class="btn btn-secondary dropdown-toggle"
+                            type="button"
+                            id="gradDropdown"
+                            aria-expanded="false">
+                            Grad
+                        </button>
+                        <div class="dropdown-menu" id="gradovi-menu">
+                            <a class="dropdown-item" href="#" data-grad="svi">
+                                Svi gradovi
+                            </a>
+                        </div>
+                    </div>
+                </th>
+                <th scope="col">Ime</th>
+                <th scope="col">Prezime</th>
+                <th scope="col">Broj bonova</th>
+                <th scope="col">Skidanje bonova</th>
+            </tr>
+        </thead>
+        <tbody id="korisnici-body"></tbody>
+    </table>
+</div>
