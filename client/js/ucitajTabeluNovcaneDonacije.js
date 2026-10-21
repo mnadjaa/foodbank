@@ -47,6 +47,3 @@ fetch('/delovi/tabelaNovcaneDonacije.html')
         ucitajNovcaneDonacije('Datum');
     })
     .catch(error => console.error(error));
-
-
-    
