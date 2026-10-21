@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="sr">
 
-<!--KUHINJE-->
 <head>
     <meta charset="utf-8">
     <title>NARODNA KUHINJA</title>
@@ -11,7 +10,6 @@
 
 <body data-role="gost">
     <main>
-        <!--Chart Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">
                 <div class="slikaKuhinje d-flex justify-content-center text-center">
@@ -23,49 +21,15 @@
             </div>
 
             <h6 class="mb-4 mt-4 text-center">Kuhinje</h6>
-            <table class="table table-bordered" id="donacije-table">
-            <thead>
-                <tr>
-                    <th scope="col"></th>
-                    <th scope="col">Naziv</th>
-                    <th scope="col">Grad</th>
-                    <th scope="col">Adresa</th>
-                    <th scope="col">Broj obroka</th>
-                </tr>
-            </thead>
-            <tbody id="kuhinje-body">
-                <!-- Podaci će biti dinamički ubačeni ovde -->
-            </tbody>
-            </table> 
 
+            <div id="kuhinje-tabela"
+                data-endpoint="/kuhinje"
+                data-prikazi-id="false">
+            </div>
         </div>
-        <!-- Chart End -->
     </main>
 
     <script src="js/layout.js"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            fetch('/kuhinje')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('kuhinje-body');
-                    tableBody.innerHTML = '';
-                    data.forEach((row, index) => {
-                        const tableRow = document.createElement('tr');
-                        tableRow.innerHTML = `
-                            <td>${index + 1}</td>
-                            <td>${row.Naziv||''}</td>
-                            <td>${row.Podrucje||''}</td>
-                            <td>${row.Adresa||''}</td>
-                            <td>${row.Stanje||''}</td>
-                        `;
-                        tableBody.appendChild(tableRow);
-                    });
-                })
-                .catch(error => console.error('Error fetching kuhinje:', error));
-        });
-    </script>
+    <script src="js/ucitajTabeluKuhinje.js"></script>
 </body>
-
 </html>

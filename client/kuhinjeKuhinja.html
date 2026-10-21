@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="sr">
 
-<!--KUHINJE KUHINJA-->
 <head>
     <meta charset="utf-8">
     <title>NARODNA KUHINJA</title>
@@ -12,26 +11,18 @@
 <body data-role="kuhinja">
     <main>
                     <!-- Kuhinje Start -->
-                    <div class="container-fluid pt-4 px-4">
-                        <div class="row g-4">
-                            <h6 class="mb-4">Kuhinje</h6>
-                            <table class="table table-bordered" id="donacije-table">
-                                <thead>
-                                    <tr>
-                                    <!--<th scope="col">#</th>-->
-                                    <th scope="col"></th>
-                                    <th scope="col">Naziv</th>
-                                    <th scope="col">Grad</th>
-                                    <th scope="col">Adresa</th>
-                                    <th scope="col">Broj obroka</th>
-                                    </tr>
-                                </thead>
-                                <tbody id="kuhinje-body">
-                                <!-- Podaci će biti dinamički ubačeni ovde -->
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
+<div class="container-fluid pt-4 px-4">
+    <div class="row g-4">
+        <div class="col-12">
+            <h6 class="mb-4">Kuhinje</h6>
+
+            <div id="kuhinje-tabela"
+                 data-endpoint="/kuhinjeK"
+                 data-prikazi-id="false">
+            </div>
+        </div>
+    </div>
+</div>
                     <!-- Kuhinje End -->
 
                     <!--promena stanja-->
@@ -43,76 +34,55 @@
     </main>
 
     <script src="js/layout.js"></script>
+    <script src="js/ucitajTabeluKuhinje.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            fetch('/kuhinjeK')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('kuhinje-body');
-                    tableBody.innerHTML = ''; 
-                    data.forEach((row, index) => {
-                        const tableRow = document.createElement('tr');
-                        tableRow.innerHTML = `
-                            <td>${index+1}</td>
-                            <td>${row.Naziv || ''}</td>
-                            <td>${row.Podrucje || ''}</td>
-                            <td>${row.Adresa || ''}</td>
-                            <td>${row.Stanje || ''}</td>
-                        `;
-                        tableBody.appendChild(tableRow);
-                    });
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const novoStanje = document.getElementById('novoStanjeInputId');
+        const button = document.getElementById('btnPromeniSt');
+
+        button.addEventListener('click', function () {
+            const novoStanjeValue = novoStanje.value.trim();
+
+            if (novoStanjeValue === '' || isNaN(novoStanjeValue) || Number(novoStanjeValue) < 0) {
+                alert('Unesite validan broj obroka koji nije negativan');
+                return;
+            }
+
+            fetch('/izmeniKuhinju', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    novoStanje: Number(novoStanjeValue)
                 })
-                .catch(error => console.error('Error fetching kuhinje:', error));
+            })
+           .then(async response => {
+    const tekst = await response.text();
+
+    console.log("HTTP status:", response.status);
+    console.log("Odgovor servera:", tekst);
+
+    if (!response.ok) {
+        throw new Error(tekst || 'Greška pri promeni stanja');
+    }
+
+    return JSON.parse(tekst);
+})
+            .then(data => {
+                console.log('Promena stanja uspešno izvršena:', data);
+                location.reload();
+            })
+            .catch(error => {
+                console.error('Greška pri promeni stanja:', error);
+                alert('Došlo je do greške pri promeni stanja kuhinje.');
+            });
         });
-    </script>
+    });
+</script>
 
-    <script>
-
-            const novoStanje= document.getElementById('novoStanjeInputId');
-            const button = document.querySelector('#btnPromeniSt');
-            if (button) {
-          button.addEventListener('click', function() {
-            const novoStanjeValue = novoStanje.value;
-            editKuhinja(novoStanjeValue);
-          });
-        } else {
-          console.error('Input element with id "novoStanjeInputId" not found');
-        }
-
-                function editKuhinja(novoStanje) {
-                    // Provera da li je unet validan broj
-                    if (!novoStanje || isNaN(novoStanje) || novoStanje < 0) {
-                        alert('Unesite validan broj obroka koji nije negativan');
-                        return;
-                    }
-
-                    // AJAX poziv ka serverskoj ruti za promenu broja bonova
-                    console.log(JSON.stringify({ novoStanje }));
-
-                    fetch(`/izmeniKuhinju`, {//izbacila sam /${username}
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json'
-                        },
-                        body: JSON.stringify({ novoStanje })
-
-                    })
-                    .then(response => {
-                        if (!response.ok) {
-                            throw new Error('Greska pri dobijanju odgovora od servera');
-                        }
-                        return response.json();
-                    })
-                    .then(data => {
-                        console.log('Promena stanja uspešno izvršena:', data);
-                        location.reload();
-                    })
-                    .catch(error => {
-                        console.error('Greška pri promeni stanja:', error);
-                    });
-                }
-    </script>
 </body>
 
 </html>

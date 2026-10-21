@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="sr">
 
-<!--KUHINJE-->
 <head>
     <meta charset="utf-8">
     <title>NARODNA KUHINJA</title>
@@ -12,26 +11,13 @@
 <body data-role="sef" data-add-href="signupKuhinja.html" data-add-text="Dodaj kuhinju">
     <main>
         <div style=" margin-top: 60px;"></div>
-
-        <h6 class="mb-2 text-center" >Kuhinje</h6>
-        <div class=" p-4">
-        <table class="table table-bordered table-responsive" id="donacije-table">
-            <thead>
-                <tr>
-                    <!--<th scope="col">#</th>-->
-                    <th scope="col">ID</th>
-                    <th scope="col">Naziv</th>
-                    <th scope="col">Grad</th>
-                    <th scope="col">Adresa</th>
-                    <th scope="col">Broj obroka</th>
-                </tr>
-            </thead>
-            <tbody id="kuhinje-body">
-                <!-- Podaci će biti dinamički ubačeni ovde -->
-            </tbody>
-        </table>
+        <h6 class="mb-2 text-center" >Kuhinje</h6><!--tabela:-->
+        <div class="p-4">
+            <div id="kuhinje-tabela"
+                data-endpoint="/kuhinjeK"
+                data-prikazi-id="true">
+            </div>
         </div>
-
            <!--brisanje kuhinje-->
            <div style=" margin-top: 30px;"></div>
            <div class="container-fluid pt-4 px-4">
@@ -49,29 +35,6 @@
     </main>
 
     <script src="js/layout.js"></script>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            fetch('/kuhinjeK')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('kuhinje-body');
-                    tableBody.innerHTML = ''; // Clear any existing rows
-                    data.forEach((row) => {
-                        const tableRow = document.createElement('tr');
-                        tableRow.innerHTML = `
-                           <td>${row.KID}</td>     <!--iz baze-->
-                            <td>${row.Naziv||''}</td>
-                            <td>${row.Podrucje||''}</td>
-                            <td>${row.Adresa||''}</td>
-                            <td>${row.Stanje||''}</td>
-                        `;
-                        tableBody.appendChild(tableRow);
-                    });
-                })
-                .catch(error => console.error('Error fetching kuhinje:', error));
-        });
-    </script>
+    <script src="js/ucitajTabeluKuhinje.js"></script>
 </body>
-
 </html>
