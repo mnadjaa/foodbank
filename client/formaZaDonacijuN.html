@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="sr">
 
-<!--REGISTRUJ SE-->
 <head>
     <meta charset="utf-8">
     <title>NARODNA KUHINJA</title>
@@ -13,7 +12,6 @@
 
 <body data-layout="auth">
     <main>
-            <!-- Sign Up Start -->
             <div class="container-fluid">
                 <div class="row h-100 align-items-center justify-content-center" style="min-height: 100vh;">
                     <div class="col-12 col-sm-8 col-md-6 col-lg-5 col-xl-4">
@@ -22,11 +20,11 @@
                                 <h3>Podaci o donaciji</h3>
                             </div>
                    <form action="/dodajDonN" method="POST">
-        <div class="form-floating mb-3">
-            <input  class="form-control" id="datumVreme" name="datumVreme" placeholder="Izaberite datum i vreme" required >
-            <label for="datumVreme">Datum i vreme</label>
-            <span class="error-message"></span>
-        </div>
+                        <div class="form-floating mb-3">
+                            <input  class="form-control" id="datumVreme" name="datumVreme" placeholder="Izaberite datum i vreme" required >
+                            <label for="datumVreme">Datum i vreme</label>
+                            <span class="error-message"></span>
+                        </div>
                             <div class="form-floating mb-3">
                                 <input class="form-control"  name="iznos"required>
                                 <label >Iznos</label>
@@ -40,26 +38,18 @@
                                 <input class="form-control" name="dntrid">
                                 <label >DNTRID</label>
                             </div>
-
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Dodaj donaciju</button>
                         </form>
                         </div>
                     </div>
                 </div>
             </div>
-            <!-- Sign Up End -->
     </main>
 
     <script src="js/layout.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-
-    <script>
-        flatpickr("#datumVreme", {
-            enableTime: true, 
-            dateFormat: "Y-m-d H:i", // Format datuma i vremena 
-            time_24hr: true 
-        });
-    </script>
+    <script src="js/datumVreme.js"></script>
+   
 </body>
 
 </html>
