@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="sr">
 
-<!--DONATORI SEF-->
 <head>
     <meta charset="utf-8">
     <title>NARODNA KUHINJA</title>
@@ -11,31 +10,13 @@
 
 <body data-role="sef" data-add-href="signupDonator.html" data-add-text="Dodaj donatora">
     <main>
-        <!-- Chart Start -->
         <div class="container-fluid pt-4 px-4">
             <div class="row g-4">
-                <!--donatori-->
-                <h6 class="mb-3 mt-5 ">Donatori</h6>
-                    <div class="table-responsive">
-                        <table class="table table-bordered " id="donatoriInfo-table"style="width: fit-content;">
-                            <thead>
-                                <tr>
-                                <!--<th scope="col">#</th>-->
-                                <th scope="col">ID</th>
-                                <th scope="col">Ime</th>
-                                <th scope="col">Telefon</th>
-                                <th scope="col">Mejl</th>
-                                <th scope="col">Adresa</th>
-                                </tr>
-                            </thead>
-                            <tbody id="donatoriInfo-body">
-                            <!-- Podaci će biti dinamički ubačeni ovde -->
-                            </tbody>
-                        </table>
-                    </div>
-                    <!--donatori-->
-
-                    <!-- brisanje donatora -->
+                <!--tabela:-->
+                <h6 class="mb-3 mt-5">Donatori</h6>
+                <div id="donatoriInfo-tabela-container">
+                </div>
+                    <!-- brisanje donatora: -->
                     <div class="container-fluid pt-4 px-4">
                         <h5 class="mb-3 text-center">Obriši donatora</h5>
                         <form action="/deleteDonator" method="POST">
@@ -46,37 +27,13 @@
                             <button type="submit" class="btn btn-danger py-3 w-100">Obriši</button>
                         </form>
                     </div>
-                    <!---->
-
             </div>
         </div>
-        <!-- Chart End -->  
     </main>
 
     <script src="js/layout.js"></script>
+    <script src="js/ucitajTabeluDonatoriInfo.js"></script>
 
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            fetch('/donatoriInfo')
-                .then(response => response.json())
-                .then(data => {
-                    const tableBody = document.getElementById('donatoriInfo-body');
-                    tableBody.innerHTML = ''; // da obrise redove koji postoje
-                    data.forEach((row) => {
-                        const tableRow = document.createElement('tr');
-                        tableRow.innerHTML = `
-                            <td>${row.DNTRID}</td>
-                            <td>${row.Naziv||''}</td>
-                            <td>${row.Telefon||''}</td>
-                            <td>${row.Mejl||''}</td>
-                            <td>${row.Adresa||''}</td>
-                        `;
-                        tableBody.appendChild(tableRow);
-                    });
-                })
-                .catch(error => console.error('Error fetching donatori:', error));
-        });
-    </script>
 </body>
 
 </html>
