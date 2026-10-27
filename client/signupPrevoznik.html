@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="sr">
 
-<!--REGISTRUJ SE-->
 <head>
     <meta charset="utf-8">
     <title>NARODNA KUHINJA</title>
@@ -20,9 +19,9 @@
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <h3>Podaci o prevozniku</h3>
                         </div>
-                        <form action="/signupPrevoznik" method="POST">
+                        <form id="/signupPrevoznik" >
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="suuser" name="ime"placeholder="jhondoe">
+                                <input type="text" class="form-control" id="suuser" name="ime"placeholder="jhondoe" required>
                                 <label for="suuser">Ime</label>
                             </div>
                             <div class="form-floating mb-3">
@@ -30,11 +29,11 @@
                                 <label for="suuser">Prezime</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="email" class="form-control" id="suemail" name="email"placeholder="name@example.com">
+                                <input type="email" class="form-control" id="suemail" name="email"placeholder="name@example.com" required>
                                 <label for="suemail">Email adresa</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="suuser" name="telefon"placeholder="jhondoe">
+                                <input type="text" class="form-control" id="suuser" name="telefon"placeholder="jhondoe" required>
                                 <label for="suuser">Telefon</label>
                             </div>
                             <div class="form-floating mb-3">

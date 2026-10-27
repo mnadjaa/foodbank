@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="sr">
 
-<!--REGISTRUJ SE-->
 <head>
     <meta charset="utf-8">
     <title>NARODNA KUHINJA</title>
@@ -22,11 +21,11 @@
                         </div>
                         <form action="/signupPU" method="POST">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="suuser" name="ime"placeholder="jhondoe">
+                                <input type="text" class="form-control" id="suuser" name="ime"placeholder="jhondoe" required>
                                 <label for="suuser">Ime</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="suuser" name="prezime"placeholder="jhondoe">
+                                <input type="text" class="form-control" id="suuser" name="prezime"placeholder="jhondoe"required>
                                 <label for="suuser">Prezime</label>
                             </div>
 
@@ -37,7 +36,7 @@
 
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control"  name="brojBonova"placeholder="">
+                                <input type="text" class="form-control"  name="brojBonova"placeholder=""required>
                                 <label for="suuser">Broj bonova</label>
                             </div>
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Dodaj korisnika</button>

@@ -44,13 +44,8 @@ const signupDonator = (req, res) => {
 
     const userExists = users.some(user => user.Username === usernameDonator);
     if (userExists) {
-     /* return res.send(`
-              <script>
-                alert('Korisničko ime je zauzeto');
-                window.location.href = '/signupDonator.html';
-              </script>
-            `);*/
-      return res.status(400).send('Korisničko ime je zauzeto');
+      return res.status(400).json({ success: false, message: 'Korisničko ime je zauzeto' });
+
     }
 
     // Dodavanje korisnika u tabelu "users"
@@ -86,22 +81,10 @@ const signupDonator = (req, res) => {
   });
 };
 
-
-
-
 //dodavanje kuhinje
 const signupKuhinja = (req, res) => {
   console.log("Pozvana signupKuhinja funkcija");
   const { usernameKuhinja, podrucjeKuhinja, nazivKuhinja, adresaKuhinja, idSefaKuhinja, passwordKuhinja } = req.body;
-  
-  console.log("Podaci primljeni od klijenta:", req.body);
-
-  /*
-  if (!usernameKuhinja || !podrucjeKuhinja || !passwordKuhinja) {
-      console.log("Niste popunili sva obavezna polja.");
-      return res.status(400).send('Niste popunili sva obavezna polja.');
-  }
-*/
 
   // Provera da li korisnik već postoji
   UsersModel.dbTextUsers((err, users) => {
@@ -112,15 +95,7 @@ const signupKuhinja = (req, res) => {
 
       const userExists = users.some(user => user.Username === usernameKuhinja);
       if (userExists) {
-          console.log("Korisničko ime je zauzeto");
-         /* return res.send(`
-              <script>
-                alert('Korisničko ime je zauzeto');
-                window.location.href = '/signupKuhinja.html';
-              </script>
-            `);
-*/
-          return res.status(400).send('Korisničko ime je zauzeto');
+        return res.status(400).json({ success: false, message: 'Korisničko ime je zauzeto' });
       }
 
       // Dodavanje korisnika u tabelu "users"
@@ -206,64 +181,37 @@ const signupSef = (req, res) => {
 };
 */
 
-
-
 //prijava
 const login = (req, res) => {
   const { username, password } = req.body;
 
   const findUser = (table, callback) => {
-      db.query(`SELECT * FROM ${table} WHERE Username = ? AND Password = ?`, [username, password], callback);
+    db.query(`SELECT * FROM ${table} WHERE Username = ? AND Password = ?`, [username, password], callback);
+  };
+
+  const uspeh = (userType, redirect) => {
+    req.session.user = { username: username, userType: userType };
+    console.log(`Sesija postavljena za ${userType}:`, req.session.user);
+    return res.json({ success: true, redirect: redirect });
   };
 
   findUser('sef', (err, results) => {
-      if (err) {
-          return res.status(500).send('Greška na serveru');
-      }
+    if (err) return res.status(500).json({ success: false, message: 'Greška na serveru' });
+    if (results.length > 0) return uspeh('sef', '/sef');
 
-      if (results.length > 0) {
-          req.session.user = {
-              username: username,
-              userType: 'sef'
-          };
-          console.log('Sesija postavljena za sefa:', req.session.user);
-          return res.redirect('/sef');
-      } else {
-          findUser('kuhinja', (err, results) => {
-              if (err) {
-                  return res.status(500).send('Greška na serveru');
-              }
+    findUser('kuhinja', (err, results) => {
+      if (err) return res.status(500).json({ success: false, message: 'Greška na serveru' });
+      if (results.length > 0) return uspeh('kuhinja', '/kuhinja');
 
-              if (results.length > 0) {
-                  req.session.user = {
-                      username: username,
-                      userType: 'kuhinja'
-                  };
-                  console.log('Sesija postavljena za kuhinju:', req.session.user);
-                  return res.redirect('/kuhinja');
-              } else {
-                  findUser('donator', (err, results) => {
-                      if (err) {
-                          return res.status(500).send('Greška na serveru');
-                      }
+      findUser('donator', (err, results) => {
+        if (err) return res.status(500).json({ success: false, message: 'Greška na serveru' });
+        if (results.length > 0) return uspeh('donator', '/donator');
 
-                      if (results.length > 0) {
-                          req.session.user = {
-                              username: username,
-                              userType: 'donator'
-                          };
-                          console.log('Sesija postavljena za donatora:', req.session.user);
-                          return res.redirect('/donator');
-                      } else {
-                          return res.status(400).send('Neispravno korisničko ime ili lozinka');
-                      }
-                  });
-              }
-          });
-      }
+        return res.status(400).json({ success: false, message: 'Neispravno korisničko ime ili lozinka' });
+      });
+    });
   });
 };
-
 
 // Odjava
 const logout = (req, res) => {
@@ -275,7 +223,5 @@ const logout = (req, res) => {
     res.redirect('/index.html'); // Odjava uspješna
   });
 };
-
-
 
 module.exports = { signupDonator, signupKuhinja,login, logout, isAuthenticated, hasRole};

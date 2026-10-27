@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="sr">
 
-<!--REGISTRUJ SE-->
 <head>
     <meta charset="utf-8">
     <title>NARODNA KUHINJA</title>
@@ -19,7 +18,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <h3>Podaci o kuhinji</h3>
                         </div>
-                        <form action="/signupKuhinja" method="POST">
+                        <form id="signupForm">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="suuser" name="usernameKuhinja" placeholder="jhondoe" required>
                                 <label for="suuser">Korisničko ime</label>
@@ -31,15 +30,15 @@
                                 <span class="error-message"></span>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control"  name="nazivKuhinja" placeholder="jhondoe">
+                                <input type="text" class="form-control"  name="nazivKuhinja" placeholder="jhondoe" required>
                                 <label >Naziv</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name="adresaKuhinja" placeholder="">
+                                <input type="text" class="form-control" name="adresaKuhinja" placeholder="" required>
                                 <label>Adresa</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" name="idSefaKuhinja" placeholder="">
+                                <input type="text" class="form-control" name="idSefaKuhinja" placeholder="" required>
                                 <label>ID sefa</label>
                             </div>
                             <div class="form-floating mb-4">
@@ -47,6 +46,7 @@
                                 <label for="supassword">Šifra</label>
                                 <span class="error-message"></span>
                             </div>
+                                <span id="formaGreska" class="text-danger d-block mb-3"></span>
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Dodaj nalog</button>
                         </form>
                     </div>
@@ -56,6 +56,33 @@
     </main>
 
     <script src="js/layout.js"></script>
+    <script>
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const greska = document.getElementById('formaGreska');
+        greska.textContent = '';
+
+        const podaci = Object.fromEntries(new FormData(e.target));
+
+        try {
+            const response = await fetch('/signupKuhinja', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(podaci)
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                alert(data.message);
+                window.location.href = data.redirect;
+            } else {
+                greska.textContent = data.message;
+            }
+        } catch (err) {
+            greska.textContent = 'Greška u komunikaciji sa serverom.';
+        }
+    });
+    </script>
 </body>
 
 </html>

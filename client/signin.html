@@ -7,8 +7,6 @@
     <title>NARODNA KUHINJA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <script src="js/head.js"></script>
-    <script src="index.js" defer></script>
-    <script src="login.js" defer></script>
 </head>
 
 <body data-layout="auth">
@@ -20,18 +18,17 @@
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <h3>Prijavi se</h3>
                         </div>
-                        <form action="/login" method="POST">   
-                            <!-- Polja forme -->
+                        <form id="loginForm">
                             <div class="form-floating mb-3">
-                                <input type="text" class="form-control" id="emailuser" name="username" placeholder="user123">
-                                <label for="emailuser">Korisničko ime</label>
-                            </div>
-                            <div class="form-floating mb-4">
-                                <input type="password" class="form-control" id="emailpassword" name="password" placeholder="Password">
-                                <label for="emailpassword">Šifra</label>
-                            </div>
-                            <!-- Dugme za slanje forme -->
-                            <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Prijavi se</button>
+                            <input type="text" class="form-control" id="emailuser" name="username" placeholder="user123">
+                            <label for="emailuser">Korisničko ime</label>
+                        </div>
+                        <div class="form-floating mb-3">
+                            <input type="password" class="form-control" id="emailpassword" name="password" placeholder="Password">
+                            <label for="emailpassword">Šifra</label>
+                        </div>
+                        <span id="loginGreska" class="text-danger d-block mb-3"></span>
+                        <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Prijavi se</button>
                         </form>
                     </div>
                 </div>
@@ -40,6 +37,34 @@
     </main>
 
     <script src="js/layout.js"></script>
-</body>
 
+    <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const greska = document.getElementById('loginGreska');
+        greska.textContent = '';
+
+        const username = document.getElementById('emailuser').value;
+        const password = document.getElementById('emailpassword').value;
+
+        try {
+            const response = await fetch('/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password })
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                window.location.href = data.redirect;
+            } else {
+                greska.textContent = data.message;
+            }
+        } catch (err) {
+            greska.textContent = 'Greška u komunikaciji sa serverom.';
+        }
+    });
+    </script>
+
+</body>
 </html>

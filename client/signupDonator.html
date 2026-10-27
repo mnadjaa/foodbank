@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="sr">
 
-<!--REGISTRUJ SE-->
 <head>
     <meta charset="utf-8">
     <title>NARODNA KUHINJA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <script src="js/head.js"></script>
-    <script src="login.js" defer></script>
 </head>
 
 <body data-layout="auth">
@@ -19,7 +17,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <h3>Podaci o donatoru</h3>
                         </div>
-                        <form action="/signupDonator" method="POST">
+                        <form id="signupForm">
                         <div class="form-floating mb-3">
                             <input type="text" class="form-control" id="suuser" name="usernameDonator"placeholder="jhondoe"required>
                             <label for="suuser">Korisničko ime</label>
@@ -31,11 +29,11 @@
                             <span class="error-message"></span>
                         </div>
                         <div class="form-floating mb-3">
-                            <input  class="form-control" id="suemail" name="nazivDonator"placeholder="name@example.com">
+                            <input  class="form-control" id="suemail" name="nazivDonator"placeholder="name@example.com" required>
                             <label for="suemail">Naziv</label>
                         </div>
                         <div class="form-floating mb-3">
-                            <input class="form-control" name="telefonDonator"placeholder="name@example.com">
+                            <input class="form-control" name="telefonDonator"placeholder="name@example.com" required>
                             <label >Telefon</label>
                         </div>
                         <div class="form-floating mb-3">
@@ -47,6 +45,8 @@
                             <label for="supassword">Šifra</label>
                             <span class="error-message"></span>
                         </div>
+                            <span id="formaGreska" class="text-danger d-block mb-3"></span>
+
                         <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Dodaj nalog</button>
                     </form>
                     </div>
@@ -56,6 +56,33 @@
     </main>
 
     <script src="js/layout.js"></script>
+    <script>
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const greska = document.getElementById('formaGreska');
+        greska.textContent = '';
+
+        const podaci = Object.fromEntries(new FormData(e.target));
+
+        try {
+            const response = await fetch('/signupDonator', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(podaci)
+            });
+            const data = await response.json();
+
+            if (data.success) {
+                alert(data.message);
+                window.location.href = data.redirect;
+            } else {
+                greska.textContent = data.message;
+            }
+        } catch (err) {
+            greska.textContent = 'Greška u komunikaciji sa serverom.';
+        }
+    });
+    </script>
 </body>
 
 </html>
