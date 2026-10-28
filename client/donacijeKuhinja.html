@@ -6,6 +6,7 @@
     <title>NARODNA KUHINJA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <script src="js/head.js"></script>
+    <script src="js/formeDonacija.js"></script>
 </head>
 
 <body data-role="kuhinja">
@@ -15,10 +16,17 @@
 
             <!-- Prve dve tabele -->
             <div class="row g-4 align-items-stretch">
-
-                <div class="col-md-6 d-flex">
+                <div class="col-md-6 d-flex flex-column">
                     <div id="tabela-donacije" class="w-100"></div>
+                    <div>
+                     <button id="dodajDonacijuHBtn"
+                                class="btn btn-primary mt-3"
+                                onclick="openFormDonH()">
+                            Dodaj donaciju
+                        </button>
+                    </div>
                 </div>
+                
 
                 <div class="col-md-6 d-flex">
                     <div id="tabela-novcane-donacije"class="w-100"></div>

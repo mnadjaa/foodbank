@@ -19,19 +19,19 @@
                             <div class="d-flex align-items-center justify-content-between mb-3">
                                 <h3>Podaci o donaciji</h3>
                             </div>
-                   <form action="/dodajDonH" method="POST">
-        <div class="form-floating mb-3">
-            <input  class="form-control" id="datumVreme" name="datumVreme" placeholder="Izaberite datum i vreme" required >
-            <label for="datumVreme">Datum i vreme</label>
-            <span class="error-message"></span>
-        </div>
+                        <form action="/dodajDonH" method="POST">
+                            <div class="form-floating mb-3">
+                                <input  class="form-control" id="datumVreme" name="datumVreme" placeholder="Izaberite datum i vreme" required >
+                                <label for="datumVreme">Datum i vreme</label>
+                                <span class="error-message"></span>
+                            </div>
 
                             <div class="form-floating mb-3">
-                                <input  class="form-control" name="opis">
+                                <input  class="form-control" name="opis" required>
                                 <label >Opis</label>
                             </div>
                             <div class="form-floating mb-3">
-                                <input class="form-control" name="grad"required>
+                                <input class="form-control" name="grad" required>
                                 <label >Grad</label>
                                 <span class="error-message"></span>
 

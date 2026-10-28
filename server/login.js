@@ -75,7 +75,6 @@ const signupDonator = (req, res) => {
         window.location.href = '/donatoriSef.html';
       </script>
     `);
-        //res.redirect('/donatoriSef.html');
       });
     });
   });
@@ -130,7 +129,6 @@ const signupKuhinja = (req, res) => {
               </script>
             `);
 
-              //res.redirect('/kuhinjeSef.html');
           });
       });
   });
