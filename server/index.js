@@ -51,7 +51,6 @@ const donatorKontroler = require('./kontroleri/donator');
 //const { isAuthenticated, hasRole } = require('./login'); // Uvoz middleware-a
 const { isAuthenticated, hasRole } = loginController;
 
-
 app.post('/login', (req, res) => {//post umesto get jer se salju osetljivi podaci
   // Pristupite vrednostima koje je korisnik uneo u formi putem req.body objekta, navodimo name
   console.log(req.body);
@@ -64,7 +63,6 @@ app.post('/login', (req, res) => {//post umesto get jer se salju osetljivi podac
 
   loginController.login(req,res);
 });
-
 
 app.get('/getID', (req, res) => {
   const username = req.session.username;
@@ -87,7 +85,6 @@ app.get('/getID', (req, res) => {
   });
 });
 
-
 app.post('/izmeniKuhinju', isAuthenticated, (req, res) => {
   console.log("pozvana ruta izmeni-kuhinju")
   const username = req.session.username;
@@ -97,14 +94,12 @@ app.post('/izmeniKuhinju', isAuthenticated, (req, res) => {
   kuhinjaKontroler.promeniStKuh(username, novoStanje, res);
 });
 
-
 app.post('/signupDonator', loginController.signupDonator); // Registracija donatora
 app.post('/signupKuhinja',loginController.signupKuhinja); //Registracija kuhinje
 //app.post('/signupSef', loginController.signupSef); // Registracija sefa - nemamo to, necemo da dodajemo sefa
 
 app.post('/signupPrevoznik', sefKontroler.signupPrevoznik); // Dodavanje prevoznika
 app.post('/signupPU', sefKontroler.signupPU); // Dodavanje prevoznika
-
 
 app.post('/deleteDonator', sefKontroler.deleteDonator);
 app.post('/deleteKuhinja', sefKontroler.deleteKuhinja);
@@ -114,8 +109,6 @@ app.post('/deleteDonaciju',sefKontroler.deleteDonaciju);
 app.post('/odbiDonaciju',sefKontroler.odbiDonaciju);
 
 app.post('/logout', loginController.logout); // Odjava
-
-
 
 //za korisnike:
 app.get('/sef', isAuthenticated, hasRole('sef'), (req, res) => {          
@@ -131,11 +124,9 @@ app.get('/donator', isAuthenticated, hasRole('donator'), (req, res) => {
   res.sendFile(path.join(__dirname, '..','client', 'donator.html'));
 });
 
-
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'index.html')); // Glavna stranica
 });
-
 
 //prikaz tabela:
 app.get('/donacije', (req, res) => {
@@ -164,7 +155,6 @@ app.get('/donacije', (req, res) => {
     res.json(formattedResults); // Slanje formatiranih podataka kao JSON odgovor
   });
 });
-
 
 app.get('/vasedonacije', (req, res) => {
   const username = req.session.username;
@@ -199,9 +189,6 @@ app.get('/odbijenedon', (req, res) => {
   });
 });
 
-
-
-
 app.get('/donacijeKuh',(req,res)=>{
   const username = req.session.username;
   kuhinjaKontroler.getDonacijeZaKuhinju(username,(err,results)=>{
@@ -213,7 +200,6 @@ app.get('/donacijeKuh',(req,res)=>{
   })
 })
 
-
 app.get('/kuhinje',(req,res)=>{
   kuhinja.dbTextKuhinje((err, results) => {
     if (err) {
@@ -224,6 +210,7 @@ app.get('/kuhinje',(req,res)=>{
     res.json(results);
 })
 })
+
 //tabela kuhinja za korisnika kuhinja
 app.get('/kuhinjeK',(req,res)=>{
   kuhinja.dbTextKuhinjeInfo((err, results) => {
@@ -236,7 +223,6 @@ app.get('/kuhinjeK',(req,res)=>{
 })
 })
 
-
 app.get('/donatori',(req,res)=>{
   donator.dbTextDonatori((err, results) => {
     if (err) {
@@ -247,6 +233,7 @@ app.get('/donatori',(req,res)=>{
  res.json(results);
 })
 })
+
 app.get('/donatoriInfo',(req,res)=>{
   donator.dbTextDonatoriInfo((err, results) => {
     if (err) {
@@ -257,8 +244,6 @@ app.get('/donatoriInfo',(req,res)=>{
  res.json(results);
 })
 })
-
-
 
 app.get('/donacijeN',(req,res)=>{
   donacijaN.dbTextDonacijeN((err, results) => {
@@ -318,8 +303,6 @@ app.get('/rasporedp', (req, res) => {
 })
 })
 
-
-
 app.get('/prevoznici',(req,res)=>{
   prevoz.getAllPrevoznici((err,results)=>{
     if (err) {
@@ -329,6 +312,7 @@ app.get('/prevoznici',(req,res)=>{
   }
   res.json(results);
   })})
+
 app.get('/gradovi', (req, res) => {
   prevoz.getAllPrevoznici((err, results) => {
       if (err) {
@@ -341,6 +325,7 @@ app.get('/gradovi', (req, res) => {
       res.json(gradovi);
   });
 });
+
 app.get('/korisnici',(req,res)=>{
   primUsl.dbTextPrimUsl((err, results) => {
     if (err) {
@@ -351,6 +336,7 @@ app.get('/korisnici',(req,res)=>{
   res.json(results);
   })
 })
+
 app.get('/gradoviKorisnika', (req, res) => {
   primUsl.dbTextPrimUsl((err, results) => {
       if (err) {
@@ -364,7 +350,6 @@ app.get('/gradoviKorisnika', (req, res) => {
   });
 });
 
-
 app.post('/promeniBrBonova', (req, res) => {
   const { puid, brojBonova } = req.body;
   primUsl.dbSkiniBonove(puid, brojBonova, (err, results) => {
@@ -377,6 +362,15 @@ app.post('/promeniBrBonova', (req, res) => {
   });
 });
 
+app.get('/brojKorisnika', (req, res) => {
+    primUsl.dbBrojPrimUsl((err, broj) => {
+        if (err) {
+            return res.status(500).json({ error: 'Greška pri učitavanju broja korisnika' });
+        }
+
+        res.json({ broj });
+    });
+});
 
 app.post('/doniraj',(req,res)=>{
   console.log("pozvana ruta doniraj")
@@ -402,7 +396,6 @@ app.post('/doniraj',(req,res)=>{
       DNTRID: dntrid
     };
  
-    
     donacijaH.dbDoniraj(donacijaHraneData, (err, results) => {
       if (err) {
         console.error('Greška pri dodavanju donacije hrane:', err);
@@ -419,7 +412,6 @@ app.post('/doniraj',(req,res)=>{
     });
   });
 });
-
 
 app.post('/dodajDonN',(req,res)=>{
   console.log("pozvana ruta dodajDonN");
@@ -541,7 +533,6 @@ app.post('/donacijaStigla',(req,res)=>{
 });
   })
 
-
 app.get('/tekDonSef', (req, res) => {
   db.query('SELECT * FROM donacijahrane WHERE Izvrsena="No" AND Odbijena="No" ORDER BY Podrucje',(err, results) => {
       if (err) {
@@ -551,6 +542,7 @@ app.get('/tekDonSef', (req, res) => {
       }
       res.json(results);
 })})
+
 // Dohvatanje gradova iz donacija
 app.get('/gradoviDonacije', (req, res) => {
   donacijaH.dbTextDonacijeH((err, results) => {
@@ -589,7 +581,6 @@ app.post('/updatetekDonSef', (req, res) => {
   });
 });
 
-
 app.get('/', (req, res) => {// Ruta bez autentikacije
   res.sendFile(path.join(__dirname, 'client', 'index.html')); // Posluživanje glavne stranice
 });
@@ -604,7 +595,6 @@ cron.schedule('0 0 1 * *', () => { // //minut (0) sat (0) dan (1) svakog meseca 
     }
   });
 });
-
 
 app.get('/login', (req, res) => {
   res.sendFile(__dirname + '/client/signin.html'); 

@@ -78,5 +78,16 @@ PrimalacUslugaModel.updateBonoviNa90 = (callback) => {
   );
 };
 
+PrimalacUslugaModel.dbBrojPrimUsl = (callback) => {
+  db.query('SELECT COUNT(*) AS broj FROM primalacusluga', (err, results) => {
+    if (err) {
+      console.error('Greška pri brojanju primalaca usluga:', err);
+      callback(err, null);
+    } else {
+      callback(null, results[0].broj);
+    }
+  });
+};
+
 // Izvoz modela
 module.exports = PrimalacUslugaModel;
