@@ -65,12 +65,13 @@
                             <!--obrisi prevoznika-->
                             <div class="container-fluid pt-4 px-4">
                                 <h5 class="mb-3 text-center">Obriši prevoznika</h5>
-                               <form action="/deletePrevoznik" method="POST">
+                               <form id="forma-obrisi-prevoznika" action="/deletePrevoznik" method="POST">
                                     <div class="form-floating mb-3">
                                        <input type="text" class="form-control" id="deleteUserId" name="Id" placeholder="ID" required>
                                        <label >ID prevoznika</label>
                                     </div>
                                    <button type="submit" class="btn btn-danger py-3 w-100">Obriši</button>
+                                   <span id="poruka-obrisi" class="d-block mt-3 text-center"></span>
                                 </form>
                             </div>
                         </div>
@@ -78,7 +79,7 @@
     </main>
 
     <script src="js/layout.js"></script>
-
+    <script src="js/brisanjePrevoznika.js"></script>
     <script>
             // JavaScript za dohvatanje podataka i ažuriranje tabele
 

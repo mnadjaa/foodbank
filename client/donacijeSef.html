@@ -63,7 +63,7 @@
                         <div class="bg-light rounded p-4">
                             <h5 class="mb-3 text-center">Obriši donaciju</h5>
 
-                            <form action="/deleteDonaciju" method="POST">
+                            <form id="forma-obrisi" action="/deleteDonaciju" method="POST">
                                 <div class="form-floating mb-3">
                                     <input type="text" class="form-control"
                                         name="Id" placeholder="ID" required>
@@ -73,6 +73,7 @@
                                 <button type="submit" class="btn btn-danger py-3 w-100">
                                     Obriši
                                 </button>
+                                    <span id="poruka-obrisi" class="d-block mt-3 text-center"></span>
                             </form>
                         </div>
                     </div>
@@ -109,7 +110,7 @@
                     <div class="bg-light rounded p-4">
                         <h5 class="mb-3 text-center">Odbij donaciju</h5>
 
-                        <form action="/odbiDonaciju" method="POST">
+                        <form id="forma-odbij" action="/odbiDonaciju" method="POST">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control"
                                     name="Id" placeholder="ID" required>
@@ -119,6 +120,7 @@
                             <button type="submit" class="btn btn-danger py-3 w-100">
                                 Odbij
                             </button>
+                            <span id="poruka-odbij" class="d-block mt-3 text-center"></span>
                         </form>
                     </div>
                 </div>
@@ -131,6 +133,7 @@
     <script src="js/ucitajTekuceDonacije.js"></script>
     <script src="js/formeDonacija.js"></script>
     <script src="js/ucitajDonacijeSef.js"></script>
+    <script src="js/brisanjeIOdbijanjeDonacije.js"></script>
 
 </body>
 </html>

@@ -19,12 +19,13 @@
                     <!-- brisanje donatora: -->
                     <div class="container-fluid pt-4 px-4">
                         <h5 class="mb-3 text-center">Obriši donatora</h5>
-                        <form action="/deleteDonator" method="POST">
+                        <form id="forma-obrisi-donatora"  action="/deleteDonator" method="POST">
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="deleteUserId" name="userId" placeholder="User ID" required>
                                 <label for="deleteUserId">ID donatora</label>
                             </div>
                             <button type="submit" class="btn btn-danger py-3 w-100">Obriši</button>
+                            <span id="poruka-obrisi" class="d-block mt-3 text-center"></span>
                         </form>
                     </div>
             </div>
@@ -33,6 +34,7 @@
 
     <script src="js/layout.js"></script>
     <script src="js/ucitajTabeluDonatoriInfo.js"></script>
+    <script src="js/brisanjeDonatora.js"></script>
 
 </body>
 
