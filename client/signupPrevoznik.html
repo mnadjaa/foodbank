@@ -6,8 +6,6 @@
     <title>NARODNA KUHINJA</title>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <script src="js/head.js"></script>
-    <script src="index.js" defer></script>
-    <script src="login.js" defer></script>
 </head>
 
 <body data-layout="auth">
@@ -19,7 +17,7 @@
                         <div class="d-flex align-items-center justify-content-between mb-3">
                             <h3>Podaci o prevozniku</h3>
                         </div>
-                        <form id="/signupPrevoznik" >
+                        <form id="signupForm">                            
                             <div class="form-floating mb-3">
                                 <input type="text" class="form-control" id="suuser" name="ime"placeholder="jhondoe" required>
                                 <label for="suuser">Ime</label>
@@ -46,6 +44,7 @@
                                 <span class="error-message"></span>
 
                             </div>
+                            <span id="formaGreska" class="text-danger d-block mb-3"></span>
                             <button type="submit" class="btn btn-primary py-3 w-100 mb-4">Dodaj prevoznika</button>
                         </form>
                     </div>
@@ -55,6 +54,37 @@
     </main>
 
     <script src="js/layout.js"></script>
+    <script>
+    document.getElementById('signupForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const greska = document.getElementById('formaGreska');
+        greska.textContent = '';
+
+        const podaci = Object.fromEntries(new FormData(e.target));
+
+        try {
+            const response = await fetch('/signupPrevoznik', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(podaci)
+            });
+
+            const tekst = await response.text();
+            let data = {};
+            try { data = JSON.parse(tekst); } catch (_) {}
+
+            if (response.ok && data.success !== false) {
+                alert(data.message || 'Prevoznik je uspešno dodat.');
+                window.location.replace('prevozniciSef.html');
+            } else {
+                greska.textContent = data.message || 'Greška pri dodavanju (status ' + response.status + ').';
+            }
+        } catch (err) {
+            console.error(err);
+            greska.textContent = 'Greška u komunikaciji sa serverom.';
+        }
+    });
+</script>
 </body>
 
 </html>

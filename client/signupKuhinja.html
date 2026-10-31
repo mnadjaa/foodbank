@@ -57,32 +57,36 @@
 
     <script src="js/layout.js"></script>
     <script>
-    document.getElementById('signupForm').addEventListener('submit', async (e) => {
-        e.preventDefault();
-        const greska = document.getElementById('formaGreska');
-        greska.textContent = '';
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const greska = document.getElementById('formaGreska');
+    greska.textContent = '';
 
-        const podaci = Object.fromEntries(new FormData(e.target));
+    const podaci = Object.fromEntries(new FormData(e.target));
 
-        try {
-            const response = await fetch('/signupKuhinja', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(podaci)
-            });
-            const data = await response.json();
+    try {
+        const response = await fetch('/signupKuhinja', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(podaci)
+        });
 
-            if (data.success) {
-                alert(data.message);
-                window.location.href = data.redirect;
-            } else {
-                greska.textContent = data.message;
-            }
-        } catch (err) {
-            greska.textContent = 'Greška u komunikaciji sa serverom.';
+        const tekst = await response.text();
+        let data = {};
+        try { data = JSON.parse(tekst); } catch (_) { /* odgovor nije JSON, nije problem */ }
+
+        if (response.ok && data.success !== false) {
+            alert(data.message || 'Kuhinja je uspešno dodata.');
+            window.location.replace('kuhinjeSef.html');
+        } else {
+            greska.textContent = data.message || 'Greška pri dodavanju (status ' + response.status + ').';
         }
-    });
-    </script>
+    } catch (err) {
+        console.error(err);
+        greska.textContent = 'Greška u komunikaciji sa serverom.';
+    }
+});
+</script>
 </body>
 
 </html>
