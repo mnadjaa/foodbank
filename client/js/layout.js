@@ -43,6 +43,16 @@
         ]
     };
 
+    /* Početna stranica po ulozi = prva stavka menija */
+    function homeFor(role) {
+        return (MENUS[role] || MENUS.gost)[0][0];
+    }
+
+        /* Poređenje stranica bez obzira na .html i velika/mala slova */
+    function norm(page) {
+        return String(page).replace(/\.html$/i, '').toLowerCase();
+    }
+
     /* ---------- Biblioteke (redosled je bitan) ---------- */
     var LIBS = [
         'https://code.jquery.com/jquery-3.4.1.min.js',
@@ -73,19 +83,20 @@
 
     function sidebar(role, current) {
         var links = (MENUS[role] || MENUS.gost).map(function (item) {
-            var active = item[0] === current ? ' active' : '';
+            //var active = item[0] === current ? ' active' : '';
+            var active = norm(item[0]) === norm(current) ? ' active' : '';
             return '<a href="' + item[0] + '" class="nav-item nav-link' + active + '">' +
                    '<i class="fa ' + item[1] + ' me-2"></i>' + item[2] + '</a>';
         }).join('');
 
         return '<div class="sidebar pe-4 pb-3">' +
-                   '<nav class="navbar bg-light navbar-light">' +
-                       '<a href="index.html" class="navbar-brand mx-4 mb-3">' +
-                           '<h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>OZS</h3>' +
-                       '</a>' +
-                       '<div class="navbar-nav w-100">' + links + '</div>' +
-                   '</nav>' +
-               '</div>';
+                '<nav class="navbar bg-light navbar-light">' +
+                    '<a href="' + homeFor(role) + '" class="navbar-brand mx-4 mb-3">' +
+                        '<h3 class="text-primary"><i class="fa fa-hashtag me-2"></i>OZS</h3>' +
+                    '</a>' +
+                    '<div class="navbar-nav w-100">' + links + '</div>' +
+                '</nav>' +
+            '</div>';
     }
 
     function topbar(cfg) {
@@ -122,9 +133,9 @@
         }
 
         return '<nav class="navbar navbar-expand bg-light navbar-light sticky-top px-4 py-0">' +
-                   '<a href="index.html" class="navbar-brand d-flex d-lg-none me-4">' +
-                       '<h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>' +
-                   '</a>' +
+                   '<a href="' + homeFor(cfg.role) + '" class="navbar-brand d-flex d-lg-none me-4">' +
+                        '<h2 class="text-primary mb-0"><i class="fa fa-hashtag"></i></h2>' +
+                    '</a>' +
                    '<a href="#" class="sidebar-toggler flex-shrink-0"><i class="fa fa-bars"></i></a>' +
                    right +
                '</nav>';
@@ -149,7 +160,9 @@
         addHref: d.addHref,
         addText: d.addText
     };
-    var current = location.pathname.split('/').pop() || 'index.html';
+    //var current = location.pathname.split('/').pop() || 'index.html';
+    var current = location.pathname.split('/').pop();
+    if (!current) { current = homeFor(cfg.role); }
 
     var shell = document.createElement('div');
     shell.className = 'container-xxl position-relative bg-white d-flex p-0';
